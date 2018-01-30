@@ -1,1 +1,1 @@
-"# ClubPenguin" 
+Club Penguin Game Collection Browser
