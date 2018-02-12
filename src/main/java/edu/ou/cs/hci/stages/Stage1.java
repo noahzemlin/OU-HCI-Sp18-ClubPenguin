@@ -1,34 +1,18 @@
-//******************************************************************************
-// Copyright (C) 2016-2018 University of Oklahoma Board of Trustees.
-//******************************************************************************
-// Last modified: Tue Feb  9 20:33:16 2016 by Chris Weaver
-//******************************************************************************
-// Major Modification History:
-//
-// 20160209 [weaver]:	Original file (for CS 4053/5053 homeworks).
-// 20180123 [weaver]:	Modified for use in CS 3053 team projects.
-//
-//******************************************************************************
-// Notes:
-//
-//******************************************************************************
-
 package edu.ou.cs.hci.stages;
 
 //import java.lang.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import edu.ou.cs.hci.resources.Resources;
 
 //******************************************************************************
-
-/**
- * The <CODE>BuildTest</CODE> class.<P>
- *
- * @author  Chris Weaver
- * @version %I%, %G%
- */
 public final class Stage1
 {
 	//**********************************************************************
@@ -53,8 +37,24 @@ public final class Stage1
 
 	public static void main(String[] args)
 	{
-		//Create the frame and main panel holding everything
-		JFrame frame = new JFrame("Wireframe Test");
+		//Create the Main Window
+		new ClubPenguin(50, 50);
+		
+		//Create the Scenario Window
+		new ScenarioFrame(150, 150);
+	}
+	
+}
+
+class ClubPenguin extends JFrame {
+	
+	public ClubPenguin() {
+		this(50, 50);
+	}
+	
+	public ClubPenguin(int x, int y) {
+		
+		//Create the main panel holding everything
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		
 		//Create the header panel which holds the header bar
@@ -117,16 +117,17 @@ public final class Stage1
 		for (int i=0;i<24;i++)
 			contentPanel.add(new GameCard("game: " + (i + 1)));
 
-		frame.setBounds(50, 50, 800, 600);
-		frame.add(mainPanel);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setBounds(x, y, 800, 600);
+		this.add(mainPanel);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		frame.addWindowListener(new WindowAdapter() {
+		this.addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
 					System.exit(0);
 				}
 			});
+		
 	}
 	
 }
@@ -142,6 +143,62 @@ class GameCard extends JPanel {
 		this.add(new JLabel(name), BorderLayout.NORTH);
 		this.add(new JLabel("hi 2"), BorderLayout.SOUTH);
 	}
+}
+
+class ScenarioFrame extends JFrame {
+	
+	public ScenarioFrame() {
+		this(50, 50);
+	}
+	
+	public ScenarioFrame(int x, int y) {
+	
+		ArrayList<String> titles = Resources.getLines("scenarios/titles.txt");
+		ArrayList<String> descriptions = Resources.getLines("scenarios/descriptions.txt");
+		
+		JPanel mainPanel = new JPanel(new BorderLayout());
+		
+		JList<String> list = new JList<String>();
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setLayoutOrientation(JList.VERTICAL_WRAP);
+		list.setVisibleRowCount(3);
+		String[] type = {};
+		list.setListData(titles.toArray(type));
+		list.setSelectedIndex(0);
+		list.setPreferredSize(new Dimension(800, 120));
+		
+		JTextArea desc = new JTextArea();
+		desc.setEditable(false);
+		desc.setText(descriptions.get(0));
+		desc.setPreferredSize(new Dimension(800, 420));
+		
+		mainPanel.add(list, BorderLayout.NORTH);		
+		mainPanel.add(desc, BorderLayout.SOUTH);
+		
+		this.setBounds(x, y, 800, 600);
+		this.add(mainPanel);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		list.addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				desc.setText(descriptions.get(list.getSelectedIndex()));
+			}
+			
+			
+		});
+
+		this.addWindowListener(new WindowAdapter() {
+				public void windowClosing(WindowEvent e) {
+					System.exit(0);
+				}
+			});
+		
+	}
+	
+	
 }
 
 //******************************************************************************
