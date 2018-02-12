@@ -73,8 +73,7 @@ class ClubPenguin extends JFrame {
 		rightPanel.setBorder(BorderFactory.createLineBorder(Color.black));		
 		
 		//Create the panel and scrollpane for the main game content browser
-		JPanel contentPanel = new JPanel(new GridLayout(3, 3));
-		contentPanel.setPreferredSize(new Dimension(575, 290));
+		JPanel contentPanel = new JPanel(new GridLayout(0, 3));
 		JScrollPane contentScroll = new JScrollPane(contentPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		contentScroll.setBorder(BorderFactory.createLineBorder(Color.black));	
 		contentScroll.setPreferredSize(new Dimension(575, 290));
@@ -136,12 +135,16 @@ class ClubPenguin extends JFrame {
 class GameCard extends JPanel {
 	
 	public GameCard(String name) {
+		
+		//Set Layout stuff
 		this.setLayout(new BorderLayout());
 		this.setPreferredSize(new Dimension(80, 160));
 		this.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(10, 10, 10, 10),
 				BorderFactory.createLineBorder(Color.black)));
+		
+		//Add some basic filler components
 		this.add(new JLabel(name), BorderLayout.NORTH);
-		this.add(new JLabel("hi 2"), BorderLayout.SOUTH);
+		this.add(new JLabel("Bottom Text"), BorderLayout.SOUTH);
 	}
 }
 
@@ -153,41 +156,45 @@ class ScenarioFrame extends JFrame {
 	
 	public ScenarioFrame(int x, int y) {
 	
+		//Read titles and descriptions
 		ArrayList<String> titles = Resources.getLines("scenarios/titles.txt");
 		ArrayList<String> descriptions = Resources.getLines("scenarios/descriptions.txt");
 		
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		
+		//Create a list
 		JList<String> list = new JList<String>();
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setLayoutOrientation(JList.VERTICAL_WRAP);
 		list.setVisibleRowCount(3);
+		
+		//Add text to list
 		String[] type = {};
 		list.setListData(titles.toArray(type));
 		list.setSelectedIndex(0);
 		list.setPreferredSize(new Dimension(800, 120));
 		
+		//Add description area
 		JTextArea desc = new JTextArea();
 		desc.setEditable(false);
 		desc.setText(descriptions.get(0));
 		desc.setPreferredSize(new Dimension(800, 420));
 		
+		//Add components to main panel
 		mainPanel.add(list, BorderLayout.NORTH);		
 		mainPanel.add(desc, BorderLayout.SOUTH);
 		
+		//Set layout stuff
 		this.setBounds(x, y, 800, 600);
 		this.add(mainPanel);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		list.addListSelectionListener(new ListSelectionListener() {
-
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				desc.setText(descriptions.get(list.getSelectedIndex()));
 			}
-			
-			
 		});
 
 		this.addWindowListener(new WindowAdapter() {
