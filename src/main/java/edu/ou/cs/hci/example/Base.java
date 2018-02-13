@@ -76,16 +76,12 @@ public final class Base
 
 	private static final class HelloPanel extends JPanel
 	{
+		private static final long serialVersionUID = 5151087875526596998L;
 		private final String	message;
 
 		public HelloPanel(String message)
 		{
 			this.message = ((message != null) ? message : "");
-		}
-
-		public HelloPanel()
-		{
-			this("");
 		}
 
 		public void	paintComponent(Graphics g)
