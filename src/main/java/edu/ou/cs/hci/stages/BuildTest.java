@@ -52,7 +52,7 @@ public final class BuildTest
 
 	public static void main(String[] args)
 	{
-		message = "Noah Zemlin :^)";	// Could use an arg for this
+		message = "Club Penguin";	// Could use an arg for this
 
 		JFrame			frame = new JFrame("Build Test");
 		JPanel			panel = new HelloPanel(message);

@@ -37,11 +37,11 @@ public final class Stage1
 
 	public static void main(String[] args)
 	{
-		//Create the Main Window
+		//Create the Main Window at 50, 50
 		new ClubPenguin(50, 50);
 		
-		//Create the Scenario Window
-		new ScenarioFrame(150, 150);
+		//Create the Scenario Window at 300, 150
+		new ScenarioFrame(300, 150);
 	}
 	
 }
@@ -73,7 +73,7 @@ class ClubPenguin extends JFrame {
 		rightPanel.setBorder(BorderFactory.createLineBorder(Color.black));		
 		
 		//Create the panel and scrollpane for the main game content browser
-		JPanel contentPanel = new JPanel(new GridLayout(0, 3));
+		JPanel contentPanel = new JPanel(new GridLayout(0, 4));
 		JScrollPane contentScroll = new JScrollPane(contentPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		contentScroll.setBorder(BorderFactory.createLineBorder(Color.black));	
 		contentScroll.setPreferredSize(new Dimension(575, 290));
@@ -94,7 +94,7 @@ class ClubPenguin extends JFrame {
 		
 		//Add some example buttons
 		JButton button;
-		button = new JButton("Button");
+		button = new JButton("Add Game");
 		headerPanel.add(button);
 		
 		button = new JButton("Button");
@@ -114,8 +114,9 @@ class ClubPenguin extends JFrame {
 		
 		//Add a bunch of games
 		for (int i=0;i<24;i++)
-			contentPanel.add(new GameCard("game: " + (i + 1)));
+			contentPanel.add(new GameCard("Game #" + (i + 1)));
 
+		this.setTitle("Club Penguin");
 		this.setBounds(x, y, 800, 600);
 		this.add(mainPanel);
 		this.setVisible(true);
@@ -150,59 +151,65 @@ class GameCard extends JPanel {
 
 class ScenarioFrame extends JFrame {
 	
+	private final int BORDER_SIZE = 5;
+	
 	public ScenarioFrame() {
 		this(50, 50);
 	}
 	
 	public ScenarioFrame(int x, int y) {
-	
-		//Read titles and descriptions
-		ArrayList<String> titles = Resources.getLines("scenarios/titles.txt");
-		ArrayList<String> descriptions = Resources.getLines("scenarios/descriptions.txt");
 		
-		JPanel mainPanel = new JPanel(new BorderLayout());
-		
-		//Create a list
+		//Get the data
+		ArrayList<String> titles = Resources.getLines("personas/titles.txt");
+		titles.addAll(Resources.getLines("scenarios/titles.txt"));
+		ArrayList<String> descriptions = Resources.getLines("personas/descriptions.txt");
+		descriptions.addAll(Resources.getLines("scenarios/descriptions.txt"));
+
+		//Create the list of personas and scenarios
 		JList<String> list = new JList<String>();
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setLayoutOrientation(JList.VERTICAL_WRAP);
-		list.setVisibleRowCount(3);
-		
-		//Add text to list
+		list.setVisibleRowCount(titles.size());
 		String[] type = {};
 		list.setListData(titles.toArray(type));
 		list.setSelectedIndex(0);
-		list.setPreferredSize(new Dimension(800, 120));
+		list.setBorder(BorderFactory.createEmptyBorder(BORDER_SIZE, BORDER_SIZE, BORDER_SIZE, BORDER_SIZE)); //creates padding
 		
-		//Add description area
+		//Create the text area
 		JTextArea desc = new JTextArea();
 		desc.setEditable(false);
+		desc.setLineWrap(true);
+		desc.setWrapStyleWord(true);
 		desc.setText(descriptions.get(0));
-		desc.setPreferredSize(new Dimension(800, 420));
+		desc.setBorder(BorderFactory.createEmptyBorder(BORDER_SIZE, BORDER_SIZE, BORDER_SIZE, BORDER_SIZE)); //creates padding
 		
-		//Add components to main panel
-		mainPanel.add(list, BorderLayout.NORTH);		
-		mainPanel.add(desc, BorderLayout.SOUTH);
+		JScrollPane descScroll = new JScrollPane(desc, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
-		//Set layout stuff
-		this.setBounds(x, y, 800, 600);
-		this.add(mainPanel);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, list, descScroll);
+		
+		this.setTitle("Scenario Browser");
+		this.setBounds(x, y, 600, 400);
+		this.add(splitPane);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
+		//Listen for changes to the selected list item
 		list.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				desc.setText(descriptions.get(list.getSelectedIndex()));
+				if (list.getSelectedIndex() < descriptions.size())
+					desc.setText(descriptions.get(list.getSelectedIndex()));
 			}
 		});
 
+		
+		/* Uncomment this if you want closing the scenario browser to close the whole program
 		this.addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
 					System.exit(0);
 				}
 			});
-		
+		*/
 	}
 	
 	
