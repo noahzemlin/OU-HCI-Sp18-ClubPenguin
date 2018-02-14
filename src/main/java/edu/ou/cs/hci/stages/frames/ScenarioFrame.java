@@ -57,6 +57,7 @@ public class ScenarioFrame extends JFrame {
 		this.setTitle("Scenario Browser");
 		this.setBounds(x, y, 600, 400);
 		this.add(splitPane);
+		this.setResizable(false);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		

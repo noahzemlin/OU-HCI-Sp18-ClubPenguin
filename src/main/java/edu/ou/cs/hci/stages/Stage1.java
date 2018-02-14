@@ -60,18 +60,17 @@ class ClubPenguin extends JFrame {
 		
 		//Create the panel which will act as a parent panel for the right side
 		JPanel rightPanel = new JPanel(new BorderLayout());
-		rightPanel.setPreferredSize(new Dimension(575, 560));
-		rightPanel.setBorder(BorderFactory.createLineBorder(Color.black));		
+		rightPanel.setPreferredSize(new Dimension(585, 560));
 		
 		//Create the panel and scrollpane for the main game content browser
 		JPanel contentPanel = new JPanel(new GridLayout(0, 4));
 		JScrollPane contentScroll = new JScrollPane(contentPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		contentScroll.setBorder(BorderFactory.createLineBorder(Color.black));	
-		contentScroll.setPreferredSize(new Dimension(575, 290));
+		contentScroll.setPreferredSize(new Dimension(585, 290));
 		
 		//Create the panel which will hold the game info
 		JPanel gamePanel = new JPanel();
-		gamePanel.setPreferredSize(new Dimension(575, 200));
+		gamePanel.setPreferredSize(new Dimension(585, 210));
 		gamePanel.setBorder(BorderFactory.createLineBorder(Color.black));		
 		
 		
@@ -104,6 +103,7 @@ class ClubPenguin extends JFrame {
 
 		this.setTitle("Club Penguin");
 		this.setBounds(x, y, 800, 600);
+		this.setResizable(false);
 		this.add(mainPanel);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
