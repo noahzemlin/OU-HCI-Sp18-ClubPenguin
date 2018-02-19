@@ -167,6 +167,7 @@ class ResultsPanel extends JPanel {
 		JLabel label;
 		for (String result : results) {
 			label = new JLabel();
+			label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 			label.setText(result);
 			this.add(label);
 		}
