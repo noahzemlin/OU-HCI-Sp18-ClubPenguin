@@ -1,4 +1,4 @@
-package edu.ou.cs.hci.stages.panels;
+package edu.ou.cs.hci.stages.frames;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -14,6 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import edu.ou.cs.hci.stages.panels.CheckBoxPanel;
+import edu.ou.cs.hci.stages.panels.GameCard;
 
 public class ClubPenguin extends JFrame {
 
@@ -38,7 +41,7 @@ public class ClubPenguin extends JFrame {
 		filters.add("Action");
 		filters.add("Strategy");
 		filters.add("RPG");
-		FilterPanel checkPanel = new FilterPanel(filters);
+		CheckBoxPanel checkPanel = new CheckBoxPanel(filters);
 		checkPanel.setPreferredSize(new Dimension(200, 560));
 		checkPanel.setBorder(BorderFactory.createLineBorder(Color.black));	
 		
@@ -85,6 +88,7 @@ public class ClubPenguin extends JFrame {
 		for (int i=0;i<24;i++)
 			contentPanel.add(new GameCard("Game #" + (i + 1)));
 
+		this.pack();
 		this.setTitle("Club Penguin");
 		this.setBounds(x, y, 800, 600);
 		this.setResizable(false);
