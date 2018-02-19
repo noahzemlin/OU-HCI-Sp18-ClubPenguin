@@ -54,6 +54,7 @@ public class ScenarioFrame extends JFrame {
 		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, list, descScroll);
 		
+		this.pack();
 		this.setTitle("Scenario Browser");
 		this.setBounds(x, y, 600, 400);
 		this.add(splitPane);

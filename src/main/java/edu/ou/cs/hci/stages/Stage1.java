@@ -1,6 +1,6 @@
 package edu.ou.cs.hci.stages;
 
-import edu.ou.cs.hci.stages.panels.*;
+import edu.ou.cs.hci.stages.frames.ClubPenguin;
 
 public final class Stage1
 {
