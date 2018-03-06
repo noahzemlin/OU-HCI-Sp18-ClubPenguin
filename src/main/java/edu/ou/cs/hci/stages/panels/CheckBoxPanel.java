@@ -33,7 +33,7 @@ public class CheckBoxPanel extends JPanel implements ItemListener{
 	}
 	
 	public void itemStateChanged(ItemEvent e) {
-	    System.out.println(((JCheckBox)e.getItem()).getText() + " " + (((JCheckBox)e.getItem()).isSelected() ? "Checked" : "Unchecked"));
+	    System.out.println(((JCheckBox)e.getItem()).getText() + " set to " + (((JCheckBox)e.getItem()).isSelected() ? "Checked" : "Unchecked"));
 	}
 
 	public String getSelectedAsText() {
