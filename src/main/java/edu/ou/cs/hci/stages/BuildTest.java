@@ -18,7 +18,9 @@ package edu.ou.cs.hci.stages;
 //import java.lang.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
+import edu.ou.cs.hci.resources.*;
 
 //******************************************************************************
 
@@ -52,7 +54,7 @@ public final class BuildTest
 
 	public static void main(String[] args)
 	{
-		message = "Noah Zemlin :^)";	// Could use an arg for this
+		message = "Build Test";	// Could use an arg for this
 
 		JFrame			frame = new JFrame("Build Test");
 		JPanel			panel = new HelloPanel(message);
@@ -68,6 +70,9 @@ public final class BuildTest
 					System.exit(0);
 				}
 			});
+
+		ArrayList<String>	personaTitles =
+			Resources.getLines("personas/titles.txt");
 	}
 
 	//**********************************************************************
