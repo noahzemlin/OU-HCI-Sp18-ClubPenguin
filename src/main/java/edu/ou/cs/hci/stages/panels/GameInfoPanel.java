@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import utils.Game;
+import edu.ou.cs.hci.stages.util.Game;
 
 public class GameInfoPanel extends JPanel{
 
@@ -54,6 +54,8 @@ public class GameInfoPanel extends JPanel{
 		
 		c.gridx = 1;
 		c.gridy = 0;
+		c.weightx = 0.05;
+		c.weighty = 0.05;
 		JButton exit = new JButton("X");
 		this.add(exit, c);
 		
@@ -98,8 +100,6 @@ public class GameInfoPanel extends JPanel{
 	}
 	
 	public void setGame(Game game) {
-		
-		if (this.isVisible()) return;
 		
 		this.setVisible(true);
 		

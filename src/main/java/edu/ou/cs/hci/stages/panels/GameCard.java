@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import edu.ou.cs.hci.stages.frames.ClubPenguin;
-import utils.Game;
+import edu.ou.cs.hci.stages.util.Game;
 
 //GameCard class will create cards that show the game picture and title
 public class GameCard extends JPanel {
