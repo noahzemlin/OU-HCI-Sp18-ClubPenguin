@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class CheckBoxPanel extends JPanel implements ItemListener{
 	
@@ -24,6 +25,7 @@ public class CheckBoxPanel extends JPanel implements ItemListener{
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 			
 			JCheckBox cbox = new JCheckBox(item);
+			//cbox.setHorizontalTextPosition(SwingConstants.LEFT); //Checkboxes on the right
 			cbox.addItemListener(this);
 			
 			this.add(cbox);
@@ -33,9 +35,10 @@ public class CheckBoxPanel extends JPanel implements ItemListener{
 	}
 	
 	public void itemStateChanged(ItemEvent e) {
-	    System.out.println(((JCheckBox)e.getItem()).getText() + " " + (((JCheckBox)e.getItem()).isSelected() ? "Checked" : "Unchecked"));
+	    System.out.println(((JCheckBox)e.getItem()).getText() + " set to " + (((JCheckBox)e.getItem()).isSelected() ? "Checked" : "Unchecked"));
 	}
 
+	//Prints out the currently selected boxes comma separated.
 	public String getSelectedAsText() {
 		String output = "";
 		int i=0;
