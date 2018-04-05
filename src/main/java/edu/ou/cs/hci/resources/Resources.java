@@ -18,6 +18,7 @@ package edu.ou.cs.hci.resources;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 //******************************************************************************
 
@@ -40,6 +41,15 @@ public final class Resources
 	public static ArrayList<String>	getLines(String filename)
 	{
 		return getLines(getResource(filename));
+	}
+
+	// Loads the image in a resource file located relative to this class file.
+	// Resource files can be in subdirectories. If so, specify the filename
+	// with a relative path. For example, use filename "icons/foo.png" to
+	// load the PNG image in the file "edu/ou/cs/hci/resources/icons/foo.png".
+	public static ImageIcon		getImage(String filename)
+	{
+		return new ImageIcon(getResource(filename));
 	}
 
 	//**********************************************************************

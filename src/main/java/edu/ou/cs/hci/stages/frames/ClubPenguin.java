@@ -1,5 +1,6 @@
 package edu.ou.cs.hci.stages.frames;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -28,6 +29,9 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import edu.ou.cs.hci.stages.actions.QuitAction;
+import edu.ou.cs.hci.stages.nav.ClubPenguinMenu;
+import edu.ou.cs.hci.stages.nav.ClubPenguinToolbar;
 import edu.ou.cs.hci.stages.panels.CheckBoxPanel;
 import edu.ou.cs.hci.stages.panels.GameCard;
 import edu.ou.cs.hci.stages.panels.GameInfoPanel;
@@ -70,16 +74,20 @@ public class ClubPenguin extends JFrame {
 		 * 	
 		 * 	Sub sections denote children (e.g. body is the parent of filterPanel and viewerPanel)
 		 * 
-		 * 	-body (Scrollpane between the left and the right)
-		 * 		-filterPanel (The panel on the left containing the filters)
-		 * 			-checkPanelGenre (Genre checkboxes)
-		 * 			-checkPanelTag	(Tag checkboxes)
-		 * 		-viewerPanel (The panel on the right containing the search bar and games view)
-		 * 			-searchSortPanel (The search bar)
-		 * 			-gameAndInfoPanel (Scrollpane between the game grid view and the game info view)
-		 * 				-contentScroll	(Game view)
-		 * 				-gamePanel	(Game info view)
+		 * 	-main
+		 * 		-toolbar
+		 * 		-body (Scrollpane between the left and the right)
+		 * 			-filterPanel (The panel on the left containing the filters)
+		 * 				-checkPanelGenre (Genre checkboxes)
+		 * 				-checkPanelTag	(Tag checkboxes)
+		 * 			-viewerPanel (The panel on the right containing the search bar and games view)
+		 * 				-searchSortPanel (The search bar)
+		 * 				-gameAndInfoPanel (Scrollpane between the game grid view and the game info view)
+		 * 					-contentScroll	(Game view)
+		 * 					-gamePanel	(Game info view)
 		 */
+		
+		JPanel main = new JPanel(new GridBagLayout());
 
 		//Create the header panel which holds the header bar
 		JPanel searchSortPanel = new JPanel(new GridLayout(0, 3));
@@ -122,8 +130,8 @@ public class ClubPenguin extends JFrame {
 		
 		//Create the panel which will act as panel for the viewer panel and games info
 		gameAndInfoPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, contentScroll, gamePanel);
-		gameAndInfoPanel.setDividerLocation(350);
-		lastGameDividerLocation = 350;
+		gameAndInfoPanel.setDividerLocation(320);
+		lastGameDividerLocation = 320;
 		
 		//Create the viewer panel which holds the search/sort bar and game browser
 		JPanel viewerPanel = new JPanel(new GridBagLayout());
@@ -147,7 +155,20 @@ public class ClubPenguin extends JFrame {
 		for (int i=0;i<24;i++)
 			contentPanel.add(new GameCard());
 		
-		this.add(body);
+		this.setJMenuBar(new ClubPenguinMenu());
+
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 1;
+		c.weighty = 0.05;
+		main.add(new ClubPenguinToolbar(), c);
+		c.gridx = 0;
+		c.gridy = 1;
+		c.weightx = 1;
+		c.weighty = 0.95;
+		main.add(body, c);
+		
+		this.add(main);
 		this.pack();
 		
 		
@@ -156,30 +177,9 @@ public class ClubPenguin extends JFrame {
 		//On Close Listener
 		this.addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
-					
-					JFileChooser fileChose = new JFileChooser();
-					fileChose.setDialogTitle("Save debug file");
-					fileChose.showDialog(instance, "Save");
-					
-					File file = fileChose.getSelectedFile();
-					try {
-						PrintWriter fout = new PrintWriter(file);
-						fout.println("Selected genres: " + checkPanelGenre.getSelectedAsText());
-						fout.println("Selected tags: " + checkPanelTag.getSelectedAsText());
-						fout.println("Current chosen game: " 
-								+ (gamePanel.getCurrentGame() == null ? "None" : gamePanel.getCurrentGame().getName()));
-						fout.println("Current search: " + search.getText());
-						fout.close();
-					} catch (FileNotFoundException e1) {
-						//didn't select a file, whatever. just exit through finally case
-					} finally {
-						System.exit(0);
-					}
-			
-					//just for good measure
-					System.exit(0);
-				}
-			});
+					QuitAction._instance.actionPerformed(null);
+			}
+		});
 		
 		//Game divider listener
 		//Keeps the game divider from randomly disappearing by reseting it's position when the box
