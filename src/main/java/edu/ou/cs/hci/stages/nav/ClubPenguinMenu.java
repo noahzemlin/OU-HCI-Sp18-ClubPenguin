@@ -1,6 +1,11 @@
 package edu.ou.cs.hci.stages.nav;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
+import java.awt.font.TextAttribute;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -83,6 +88,7 @@ public class ClubPenguinMenu extends JMenuBar{
 		menuItem = new JMenuItem();
 		menuItem.setAction(new AddGameAction());
 		menuItem.setText("Add Game");
+		menuItem.setFont(new Font("Arial", Font.BOLD, 14));
 		menuItem.setMnemonic(KeyEvent.VK_A);
 		menu.add(menuItem);
 		menuItem = new JMenuItem();
@@ -147,11 +153,11 @@ public class ClubPenguinMenu extends JMenuBar{
 		menu.addSeparator();
 		menuItem = new JMenuItem();
 		menuItem.setAction(new ZoomAction(true));
-		menuItem.setText("Zoom In");
+		menuItem.setText("Show less games");
 		menu.add(menuItem);
 		menuItem = new JMenuItem();
 		menuItem.setAction(new ZoomAction(false));
-		menuItem.setText("Zoom Out");
+		menuItem.setText("Show more games");
 		menu.add(menuItem);
 		menu.addSeparator();
 		menuItem = new JMenuItem();
@@ -192,6 +198,10 @@ public class ClubPenguinMenu extends JMenuBar{
 		menuItem = new JMenuItem();
 		menuItem.setAction(new AboutAction());
 		menuItem.setText("About");
+		Map<TextAttribute, Integer> fontAttributes = new HashMap<TextAttribute, Integer>();
+		fontAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+		menuItem.setForeground(new Color(0, 0, 255));
+		menuItem.setFont(menuItem.getFont().deriveFont(fontAttributes));
 		menuItem.setMnemonic(KeyEvent.VK_A);
 		menu.add(menuItem);
 		

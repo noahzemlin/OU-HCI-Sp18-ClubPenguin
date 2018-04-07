@@ -111,7 +111,8 @@ def altJvmArgs = ['-Xms128m', '-Xmx768m', '-noclassgc',\
 //createScript(project, 'edu.ou.cs.hci.stages.Stage2', 'stage2', altJvmArgs)
 //createScript(project, 'edu.ou.cs.hci.stages.Stage3', 'stage3', altJvmArgs)
 //createScript(project, 'edu.ou.cs.hci.stages.Stage4', 'stage4', altJvmArgs)
-createScript(project, 'edu.ou.cs.hci.stages.Stage5', 'stage5', altJvmArgs)
+//createScript(project, 'edu.ou.cs.hci.stages.Stage5', 'stage5', altJvmArgs)
+createScript(project, 'edu.ou.cs.hci.stages.Stage6', 'stage6', altJvmArgs)
 
 //******************************************************************************
 // Source Sets

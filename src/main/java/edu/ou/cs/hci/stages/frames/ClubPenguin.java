@@ -91,15 +91,15 @@ public class ClubPenguin extends JFrame {
 
 		//Create the header panel which holds the header bar
 		JPanel searchSortPanel = new JPanel(new GridLayout(0, 3));
-		searchSortPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		//searchSortPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		JTextField search = new JTextField();
 		search.setText("Search");
 		searchSortPanel.add(search);
+		searchSortPanel.setBackground(new Color(167, 211, 255));
 		
 		JPanel filterPanel = new JPanel();
 		filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.PAGE_AXIS));
-		
 		filterPanel.add(new JLabel("Genres"));
 		
 		//Create the panel which will hold the check boxes
@@ -123,7 +123,8 @@ public class ClubPenguin extends JFrame {
 		JPanel contentPanel = new JPanel(new GridLayout(0, 4));
 		contentPanel.setPreferredSize(new Dimension(0, 1000));
 		JScrollPane contentScroll = new JScrollPane(contentPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-	
+		contentPanel.setBackground(new Color(167, 211, 255));
+		
 		//Create the panel which will hold the game info
 		gamePanel = new GameInfoPanel();
 		//gamePanel.setVisible(false); //Should gamePanel should at start?
@@ -141,15 +142,15 @@ public class ClubPenguin extends JFrame {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 1;
-		c.weighty = 0.05;
+		c.weighty = 0.03;
 		viewerPanel.add(searchSortPanel, c);
 		c.gridy = 1;
-		c.weighty = .95;
+		c.weighty = .97;
 		viewerPanel.add(gameAndInfoPanel, c);
 
 		//Create the panel which hold the body
 		JSplitPane body = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, filterPanel, viewerPanel);
-		body.setDividerLocation(150);
+		body.setDividerLocation(125);
 
 		//Add a bunch of games
 		for (int i=0;i<24;i++)
@@ -177,7 +178,7 @@ public class ClubPenguin extends JFrame {
 		//On Close Listener
 		this.addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
-					QuitAction._instance.actionPerformed(null);
+					//QuitAction._instance.actionPerformed(null);
 			}
 		});
 		

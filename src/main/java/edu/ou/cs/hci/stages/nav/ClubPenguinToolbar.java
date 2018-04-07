@@ -1,6 +1,8 @@
 package edu.ou.cs.hci.stages.nav;
 
 
+import java.awt.Color;
+
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 
@@ -13,13 +15,26 @@ public class ClubPenguinToolbar extends JToolBar{
 	public ClubPenguinToolbar() {
 		
 		this.setFloatable(false);
+		JButton button;
 		
-		this.add(new JButton(new AddGameAction()));
-		this.add(new JButton(new RemoveGameAction()));
-		this.add(new JButton(new EditGameAction()));
+		
+		button = new JButton(new AddGameAction());
+		button.setBackground(new Color(160,242,255));
+		this.add(button);
+		button = new JButton(new RemoveGameAction());
+		button.setBackground(new Color(160,242,255));
+		this.add(button);
+		button = new JButton(new EditGameAction());
+		button.setBackground(new Color(160,242,255));
+		this.add(button);
 		this.addSeparator();
-		this.add(new JButton(new SortAction()));
-		this.add(new JButton(new SearchAction()));
+		button = new JButton(new SortAction());
+		button.setBackground(new Color(160,242,255));
+		this.add(button);
+		button = new JButton(new SearchAction());
+		button.setBackground(new Color(160,242,255));
+		this.add(button);
+
 		
 	}
 
