@@ -1,5 +1,6 @@
 package edu.ou.cs.hci.stages.panels;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
@@ -27,7 +28,7 @@ public class GameInfoPanel extends JPanel{
 	JTextField tagsBox;
 
 	public GameInfoPanel() {
-		
+		this.setBackground(hex2Rgb("#A0F2FF"));
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -112,6 +113,12 @@ public class GameInfoPanel extends JPanel{
 		dateLabel.setText(dateFormat.format(game.getReleaseDate().getTime()));
 		
 		tagsBox.setText(game.getTagsAsString());
+	}
+	public static Color hex2Rgb(String colorStr) {
+	    return new Color(
+	            Integer.valueOf( colorStr.substring( 1, 3 ), 16 ),
+	            Integer.valueOf( colorStr.substring( 3, 5 ), 16 ),
+	            Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
 	}
 	
 }

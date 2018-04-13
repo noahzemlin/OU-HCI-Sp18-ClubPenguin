@@ -1,5 +1,6 @@
 package edu.ou.cs.hci.stages.panels;
 
+import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -17,14 +18,15 @@ public class CheckBoxPanel extends JPanel implements ItemListener{
 	private ArrayList<JCheckBox> cboxes = new ArrayList<JCheckBox>();
 	
 	public CheckBoxPanel(ArrayList<String> items) {
-		
 		this.items = items;
-
+		this.setOpaque(false);
+	//	this.setBackground(hex2Rgb("#a7d3ff"));
 		for(String item : this.items) {
 			
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 			
 			JCheckBox cbox = new JCheckBox(item);
+			cbox.setOpaque(false);
 			//cbox.setHorizontalTextPosition(SwingConstants.LEFT); //Checkboxes on the right
 			cbox.addItemListener(this);
 			
@@ -50,5 +52,13 @@ public class CheckBoxPanel extends JPanel implements ItemListener{
 			output += cboxes.get(i).getText();
 		return output;
 	}
+	
+	public static Color hex2Rgb(String colorStr) {
+	    return new Color(
+	            Integer.valueOf( colorStr.substring( 1, 3 ), 16 ),
+	            Integer.valueOf( colorStr.substring( 3, 5 ), 16 ),
+	            Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
+	}
+	
 	
 }
