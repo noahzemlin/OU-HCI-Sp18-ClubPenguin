@@ -3,15 +3,18 @@ package edu.ou.cs.hci.stages.panels;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import edu.ou.cs.hci.resources.Resources;
 import edu.ou.cs.hci.stages.frames.ClubPenguin;
 import edu.ou.cs.hci.stages.util.Game;
 
@@ -21,21 +24,25 @@ public class GameCard extends JPanel {
 	private static final long serialVersionUID = -1585992822453830200L;
 	
 	Game game;
-	Object cGame;
+	GameCard _instance;
+	
+	private static final int picSize = 50;
 	
 	public GameCard() {
 		
 		this(new Game());
+		
 	}
 
 	public GameCard(Game game) {
+		_instance = this;
 		this.setBackground(hex2Rgb("#FFFFFF"));
 		this.game = game;
 		this.addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {	
-				ClubPenguin.setGame(game);
+				ClubPenguin.setGame(_instance);
 			}
 
 			@Override
@@ -64,8 +71,15 @@ public class GameCard extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(2, 2, 2, 2),
 				BorderFactory.createLineBorder(Color.black)));
-		//Add some basic filler components
-		this.add(new JLabel("image"), BorderLayout.NORTH);
+
+		
+		JLabel picture = new JLabel();
+		if (game.getPicture() != null && game.getPicture().length() > 0) {
+			ImageIcon pic = Resources.getImage("images/" + game.getPicture());
+			if (pic != null)
+				picture.setIcon(new ImageIcon(pic.getImage().getScaledInstance(120, 150, Image.SCALE_SMOOTH)));
+		}
+		this.add(picture, BorderLayout.NORTH);
 		this.add(new JLabel(game.getName()), BorderLayout.SOUTH);
 	}
 	public void RemoveBorder()
@@ -80,6 +94,9 @@ public class GameCard extends JPanel {
 	            Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
 	}
 	
+	public Game getGame() {
+		return game;
+	}
 	
 	
 }

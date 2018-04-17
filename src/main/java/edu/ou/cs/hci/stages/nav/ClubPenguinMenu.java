@@ -24,12 +24,12 @@ public class ClubPenguinMenu extends JMenuBar{
 		this.add(menu);
 		
 		menuItem = new JMenuItem();
-		menuItem.setAction(new PrintAction("Open: Open Library File"));
+		menuItem.setAction(new OpenAction(this));
 		menuItem.setText("Open");
 		menuItem.setMnemonic(KeyEvent.VK_O);
 		menu.add(menuItem);
 		menuItem = new JMenuItem();
-		menuItem.setAction(new PrintAction("Save: Saving Library File"));
+		menuItem.setAction(new SaveAction(this));
 		menuItem.setText("Save");
 		menuItem.setMnemonic(KeyEvent.VK_S);
 		menu.add(menuItem);
