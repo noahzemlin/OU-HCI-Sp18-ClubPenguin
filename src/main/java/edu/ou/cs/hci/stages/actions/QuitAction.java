@@ -4,9 +4,14 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
+import edu.ou.cs.hci.stages.frames.ClubPenguin;
+import edu.ou.cs.hci.stages.panels.GameInfoPanel;
 
 public class QuitAction extends AbstractAction {
 
@@ -24,14 +29,18 @@ public class QuitAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for (int i = 0; i < menu.getComponentCount(); i++) {
-			Component comp = menu.getComponent(i);
-			if (comp instanceof JMenu) {
-				SearchAndPrint((JMenu)comp);
-				System.out.println();
+		
+		if (GameInfoPanel.changedData) {
+			switch(JOptionPane.showConfirmDialog(ClubPenguin.instance, "Do you wish to save before quitting?")) {
+			case JOptionPane.NO_OPTION: System.exit(0);
+			case JOptionPane.YES_OPTION: new SaveAction(menu).actionPerformed(null);
+										System.exit(0);
+			case JOptionPane.CANCEL_OPTION: return;
 			}
+				
+		} else {
+			System.exit(0);
 		}
-		System.exit(0);
 	}
 	
 	public void SearchAndPrint(JMenu menu) {

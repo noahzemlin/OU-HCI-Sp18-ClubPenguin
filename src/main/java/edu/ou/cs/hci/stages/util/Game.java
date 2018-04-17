@@ -1,8 +1,5 @@
 package edu.ou.cs.hci.stages.util;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Random;
 
 public class Game {
@@ -11,76 +8,91 @@ public class Game {
 	
 	private String name;
 	private String description;
-	private Calendar releaseDate;
-	private ArrayList<String> tags;
+	private String developers;
+	private String publishers;
+	private String genres;
+	private String tags;
+	private String picture;
+	private String location;
 
 	public Game() {
-		name = "Dummy game #" + random.nextInt(200);
-		description = "Dummy description";
-		releaseDate = new GregorianCalendar();
-		tags = new ArrayList<String>();
+		setName("Dummy game #" + random.nextInt(200));
+		setDescription("Dummy description");
+		setDevelopers("");
+		setPublishers("");
+		setGenres("");
+		setTags("");
+		setPicture("");
+		setLocation("");
 	}
-	
+
 	public String getName() {
 		return name;
 	}
 
-	public Game setName(String name) {
+	public void setName(String name) {
 		this.name = name;
-		return this;
 	}
-	
+
+	public String getDevelopers() {
+		return developers;
+	}
+
+	public void setDevelopers(String developers) {
+		this.developers = developers;
+	}
+
 	public String getDescription() {
 		return description;
 	}
-	
-	public Game setDescription(String description) {
+
+	public void setDescription(String description) {
 		this.description = description;
-		return this;
 	}
 
-	public Calendar getReleaseDate() {
-		return releaseDate;
-	}
-	
-	public Game setReleaseDate(Calendar releaseDate) {
-		this.releaseDate = releaseDate;
-		return this;
-	}
-	
-	public void addTag(String tag) {
-		if (!tag.isEmpty()) {
-			tag = tag.toLowerCase();
-			tags.add(tag);
-		}
-	}
-	
-	public void removeTag(String tag) {
-		tag = tag.toLowerCase();
-		if (tags.contains(tag)) {
-			tags.remove(tag);
-		}
-	}
-	
-	public boolean hasTag(String tag) {
-		tag = tag.toLowerCase();
-		return tag.contains(tag);
+	public String getPublishers() {
+		return publishers;
 	}
 
-	public String getTagsAsString() {
-		if (tags.size() == 0) return "";
-		
-		String out = tags.get(0);
-		
-		for (int i=1; i<tags.size(); i++) {
-			out += ", " + tags.get(i);
-		}
-		
-		return out;
+	public void setPublishers(String publishers) {
+		this.publishers = publishers;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
+	public String getGenres() {
+		return genres;
+	}
+
+	public void setGenres(String genres) {
+		this.genres = genres;
+	}
+
+	public String getLocation() {
+		return location;
 	}
 	
-	@Override
-	public String toString() {
-		return name;
+	public void setLocation(String location) {
+		this.location = location;
 	}
+
+	public String[] getCSVData() {
+		String[] data = {name, description, developers, publishers, genres, tags, picture, location};
+		return data;
+	}
+
 }

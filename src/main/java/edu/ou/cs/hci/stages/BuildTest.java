@@ -13,31 +13,33 @@
 //
 //******************************************************************************
 
-package edu.ou.cs.hci.example;
+package edu.ou.cs.hci.stages;
 
 //import java.lang.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
+import edu.ou.cs.hci.resources.*;
 
 //******************************************************************************
 
 /**
- * The <CODE>Base</CODE> class.<P>
+ * The <CODE>BuildTest</CODE> class.<P>
  *
  * @author  Chris Weaver
  * @version %I%, %G%
  */
-public final class Base
+public final class BuildTest
 {
 	//**********************************************************************
 	// Public Class Members
 	//**********************************************************************
 
 	private static final Font	FONT =
-		new Font(Font.SERIF, Font.PLAIN, 36);
-	private static final Color	FILL_COLOR = Color.WHITE;
-	private static final Color	EDGE_COLOR = Color.BLACK;
+		new Font(Font.SERIF, Font.ITALIC, 36);
+	private static final Color	FILL_COLOR = Color.YELLOW;
+	private static final Color	EDGE_COLOR = Color.RED;
 
 	//**********************************************************************
 	// Private Members
@@ -52,9 +54,9 @@ public final class Base
 
 	public static void main(String[] args)
 	{
-		message = "Hello World!";	// Could use an arg for this
+		message = "Build Test";	// Could use an arg for this
 
-		JFrame			frame = new JFrame("Base");
+		JFrame			frame = new JFrame("Build Test");
 		JPanel			panel = new HelloPanel(message);
 
 		frame.setBounds(50, 50, 600, 600);
@@ -68,6 +70,9 @@ public final class Base
 					System.exit(0);
 				}
 			});
+
+		ArrayList<String>	personaTitles =
+			Resources.getLines("personas/titles.txt");
 	}
 
 	//**********************************************************************

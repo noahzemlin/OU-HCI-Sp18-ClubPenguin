@@ -102,7 +102,7 @@ def altJvmArgs = ['-Xms128m', '-Xmx768m', '-noclassgc',\
  '-Dapple.awt.antialiasing=on', '-Dapple.awt.graphics.UseQuartz=true', ]
 
 // Create scripts for alternate entry points (main() methods)
-//createScript(project, 'edu.ou.cs.hci.stages.BuildTest', 'build-test', altJvmArgs)
+createScript(project, 'edu.ou.cs.hci.stages.BuildTest', 'build-test', altJvmArgs)
 
 // You'll need to uncomment these incrementally for future assignments. For each
 // one, put the fully qualified classname of the class with main() in the second
@@ -112,7 +112,12 @@ def altJvmArgs = ['-Xms128m', '-Xmx768m', '-noclassgc',\
 //createScript(project, 'edu.ou.cs.hci.stages.Stage3', 'stage3', altJvmArgs)
 //createScript(project, 'edu.ou.cs.hci.stages.Stage4', 'stage4', altJvmArgs)
 //createScript(project, 'edu.ou.cs.hci.stages.Stage5', 'stage5', altJvmArgs)
+<<<<<<< HEAD
 createScript(project, 'edu.ou.cs.hci.stages.Stage6', 'stage6', altJvmArgs)
+=======
+//createScript(project, 'edu.ou.cs.hci.stages.Stage6', 'stage6', altJvmArgs)
+createScript(project, 'edu.ou.cs.hci.stages.Stage7', 'stage7', altJvmArgs)
+>>>>>>> master
 
 //******************************************************************************
 // Source Sets
@@ -191,6 +196,8 @@ dependencies
 	//runtime ('host:library:version') { transitive = false }
 
 	//compile ('host:library:version') { transitive = true }
+
+	compile ('org.apache.commons:commons-csv:1.5') { transitive = true }
 }
 
 //******************************************************************************
