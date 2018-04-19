@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 public class CheckBoxPanel extends JPanel implements ItemListener{
 	

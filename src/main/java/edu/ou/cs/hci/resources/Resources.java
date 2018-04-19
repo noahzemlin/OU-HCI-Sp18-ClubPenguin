@@ -6,6 +6,7 @@
 // Major Modification History:
 //
 // 20180206 [weaver]:	Original file (for CS course homeworks).
+// 20180414 [weaver]:	Added openURLInSystemBrowser() method.
 //
 //******************************************************************************
 // Notes:
@@ -16,9 +17,11 @@ package edu.ou.cs.hci.resources;
 
 //import java.lang.*;
 import java.io.*;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+
 
 //******************************************************************************
 
@@ -105,6 +108,61 @@ public final class Resources
 				v.add(line);
 		}
 		while (line != null);
+	}
+
+	//**********************************************************************
+	// Public Class Methods (URL Handlers)
+	//**********************************************************************
+
+	// Attempts to open the specified URL in the user's web browser. This
+	// method uses reflection and special knowledge of the Java implementation
+	// on each OS to make platform-specific system calls. Not very reliable.
+	public static void	openURLInSystemBrowser(URL url)
+	{
+		String	surl;
+
+		if (url.getProtocol().equals("file"))
+			surl = ("file:///" + url.toString().substring(6));
+		else
+			surl = url.toString();
+
+		// Following code is from http://www.centerkey.com/java/browser/
+		String	osName = System.getProperty("os.name");
+
+		try
+		{
+			if (osName.startsWith("Mac OS"))
+			{
+				Class	fileMgr = Class.forName("com.apple.eio.FileManager");
+				Method	openURL = fileMgr.getDeclaredMethod("openURL", new Class[] {String.class});
+
+				openURL.invoke(null, new Object[] {surl});
+			}
+			else if (osName.startsWith("Windows"))
+			{
+				Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + surl);
+			}
+			else	// Assume Unix or Linux
+			{
+				String		browser = null;
+				String[]	browsers = {"firefox", "opera", "konqueror",
+										"epiphany", "mozilla", "netscape"};
+
+				for (int count = 0; count < browsers.length && browser == null; count++)
+					if (Runtime.getRuntime().exec(new String[] {"which", browsers[count]}).waitFor() == 0)
+						browser = browsers[count];
+
+				if (browser == null)
+					throw new Exception("Could not find web browser");
+				else
+					Runtime.getRuntime().exec(new String[] {browser, surl});
+			}
+		}
+		catch (Exception ex)
+		{
+			// Ignore failures
+			//JOptionPane.showMessageDialog(null, "Error attempting to launch web browser:\n" + ex.getLocalizedMessage());
+		}
 	}
 }
 

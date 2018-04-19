@@ -2,9 +2,7 @@ package edu.ou.cs.hci.stages.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -13,12 +11,9 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-<<<<<<< HEAD
-=======
 import javax.swing.border.EmptyBorder;
 
 import edu.ou.cs.hci.resources.Resources;
->>>>>>> master
 import edu.ou.cs.hci.stages.frames.ClubPenguin;
 import edu.ou.cs.hci.stages.util.Game;
 
@@ -34,17 +29,11 @@ public class GameCard extends JPanel {
 	Game game;
 	GameCard _instance;
 	
-	private static final int picSize = 50;
-	
 	public GameCard() {
 		
 		this(new Game());
-<<<<<<< HEAD
 		cards.add(this);
 		thisCard = this;
-=======
-		
->>>>>>> master
 	}
 
 	public GameCard(Game game) {
@@ -54,18 +43,13 @@ public class GameCard extends JPanel {
 		this.addMouseListener(new MouseListener() {
 
 			@Override
-<<<<<<< HEAD
 			public void mouseClicked(MouseEvent e) {
-				ClubPenguin.setGame(game);
+				ClubPenguin.setGame(_instance);
 				selected = thisCard;
 				
 				for(GameCard card : cards) {
 					card.selectionChange();
 				}
-=======
-			public void mouseClicked(MouseEvent e) {	
-				ClubPenguin.setGame(_instance);
->>>>>>> master
 			}
 
 			@Override
@@ -92,14 +76,8 @@ public class GameCard extends JPanel {
 		
 		//Set Layout stuff
 		this.setLayout(new BorderLayout());
-<<<<<<< HEAD
-		this.setBackground(new Color(255, 255, 255));
-		this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(167, 211, 255), 10), BorderFactory.createLineBorder(new Color(200, 200, 200))));
-=======
 		this.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(2, 2, 2, 2),
 				BorderFactory.createLineBorder(Color.black)));
-
->>>>>>> master
 		
 		JLabel picture = new JLabel();
 		if (game.getPicture() != null && game.getPicture().length() > 0) {
@@ -121,8 +99,7 @@ public class GameCard extends JPanel {
 	            Integer.valueOf( colorStr.substring( 3, 5 ), 16 ),
 	            Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
 	}
-	
-<<<<<<< HEAD
+
 	public void selectionChange() {
 		if (selected == this) {
 			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(167, 211, 255), 10), BorderFactory.createLineBorder(new Color(255, 211, 167), 3)));
@@ -130,11 +107,10 @@ public class GameCard extends JPanel {
 			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(167, 211, 255), 10), BorderFactory.createLineBorder(new Color(200, 200, 200))));
 		}
 	}
-=======
+	
 	public Game getGame() {
 		return game;
 	}
-	
->>>>>>> master
+
 	
 }

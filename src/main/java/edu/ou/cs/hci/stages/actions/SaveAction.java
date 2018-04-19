@@ -2,24 +2,11 @@ package edu.ou.cs.hci.stages.actions;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Iterator;
-
 import javax.swing.AbstractAction;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -29,29 +16,22 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
-import org.apache.commons.csv.CSVRecord;
-
-import edu.ou.cs.hci.resources.Resources;
 import edu.ou.cs.hci.stages.frames.ClubPenguin;
 import edu.ou.cs.hci.stages.panels.GameCard;
-import edu.ou.cs.hci.stages.util.Game;
 
 public class SaveAction extends AbstractAction {
 
 	private static final long serialVersionUID = -932094879707000406L;
-	
-	private final JMenuBar menu;
 	
 	public static SaveAction _instance;
 	
 	public SaveAction(JMenuBar menu) {
 		super("Save");
 		_instance = this;
-		this.menu = menu;
 	}
 	
+	@SuppressWarnings("deprecation")
 	private static void showError(String error) {
 		JOptionPane pane = new JOptionPane("Error: " + error);
 		JDialog dialog = pane.createDialog(ClubPenguin.instance, "Error");
@@ -86,6 +66,8 @@ public class SaveAction extends AbstractAction {
 			}
 	
 	        csvPrinter.flush();   
+	        
+	        csvPrinter.close();
 	        
 		} catch (Exception ex) {
         	showError("Could not save file");

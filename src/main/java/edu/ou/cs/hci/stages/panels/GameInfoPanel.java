@@ -5,10 +5,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.text.SimpleDateFormat;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,8 +17,6 @@ import edu.ou.cs.hci.stages.util.Game;
 public class GameInfoPanel extends JPanel{
 
 	private static final long serialVersionUID = -4597173753271660181L;
-	
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	
 	public static boolean changedData = false;
 	

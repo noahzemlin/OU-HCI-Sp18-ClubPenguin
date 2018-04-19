@@ -112,12 +112,9 @@ createScript(project, 'edu.ou.cs.hci.stages.BuildTest', 'build-test', altJvmArgs
 //createScript(project, 'edu.ou.cs.hci.stages.Stage3', 'stage3', altJvmArgs)
 //createScript(project, 'edu.ou.cs.hci.stages.Stage4', 'stage4', altJvmArgs)
 //createScript(project, 'edu.ou.cs.hci.stages.Stage5', 'stage5', altJvmArgs)
-<<<<<<< HEAD
-createScript(project, 'edu.ou.cs.hci.stages.Stage6', 'stage6', altJvmArgs)
-=======
 //createScript(project, 'edu.ou.cs.hci.stages.Stage6', 'stage6', altJvmArgs)
-createScript(project, 'edu.ou.cs.hci.stages.Stage7', 'stage7', altJvmArgs)
->>>>>>> master
+//createScript(project, 'edu.ou.cs.hci.stages.Stage7', 'stage7', altJvmArgs)
+createScript(project, 'edu.ou.cs.hci.stages.Stage8', 'stage8', altJvmArgs)
 
 //******************************************************************************
 // Source Sets

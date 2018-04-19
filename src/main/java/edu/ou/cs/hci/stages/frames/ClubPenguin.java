@@ -3,60 +3,33 @@ package edu.ou.cs.hci.stages.frames;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
-import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
-
-import org.apache.commons.csv.*;
-
 import edu.ou.cs.hci.stages.actions.QuitAction;
 import edu.ou.cs.hci.stages.nav.ClubPenguinMenu;
+import edu.ou.cs.hci.stages.nav.ClubPenguinToolbar;
 import edu.ou.cs.hci.stages.panels.CheckBoxPanel;
 import edu.ou.cs.hci.stages.panels.GameCard;
 import edu.ou.cs.hci.stages.panels.GameInfoPanel;
@@ -71,11 +44,9 @@ public class ClubPenguin extends JFrame {
 	private static JSplitPane gameAndInfoPanel;
 	private static GameInfoPanel gamePanel;
 	public static JFrame instance;
-	private static Game cGame;
 	private static CheckBoxPanel checkPanelGenre;
 	private static CheckBoxPanel checkPanelTag;
 	
-	private static String tempG = null;
 	private static int lastGameDividerLocation;
 	
 	public static ArrayList<GameCard> curCards = null;
@@ -190,16 +161,8 @@ public class ClubPenguin extends JFrame {
 
 		//Create the panel which hold the body
 		JSplitPane body = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, filterPanel, viewerPanel);
-<<<<<<< HEAD
-		body.setDividerLocation(125);
-
-		//Add a bunch of games
-		for (int i=0;i<24;i++)
-			contentPanel.add(new GameCard());
-=======
 		body.setDividerLocation(150);
 		repaint();
->>>>>>> master
 		
 		contentPanel.setPreferredSize(new Dimension(0,400)); 
 		
@@ -212,70 +175,17 @@ public class ClubPenguin extends JFrame {
 		this.setJMenuBar(new ClubPenguinMenu());
 		
 		//
-		JToolBar toolBar = new JToolBar();
-		toolBar.setBackground(hex2Rgb("#A0F2FF"));
-		 ImageIcon TBadd_Game = Resources.getImage("icons/add_game.png");
-		 ImageIcon TBdelete_Game = Resources.getImage("icons/delete_game.png");
-		 ImageIcon TBedit_Game = Resources.getImage("icons/edit_game.png");
-		 ImageIcon TBsearch = Resources.getImage("icons/search.png"); 
-		 
-		 ImageIcon TBsort = Resources.getImage("icons/sort.png");
 		
-		 Action add_GameAction = new AbstractAction("Open", TBadd_Game) {
-	           @Override
-	            public void actionPerformed(ActionEvent e) {
-	                System.out.println("Open File");
-	            }
-
-	        };
-	        Action delete_GameAction = new AbstractAction("Save", TBdelete_Game) {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                System.out.println("Save File");
-	            }
-	        };
-	     Action edit_GameAction = new AbstractAction("New", TBedit_Game) {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                System.out.println("New File");
-	            }
-	        };
-	        Action searchAction = new AbstractAction("New", TBsearch) {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                System.out.println("New File");
-	            }
-	        };
-	        
-	        Action sortAction = new AbstractAction("New", TBsort) {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                System.out.println("New File");
-	            }
-	        };
-
-	    
-		 toolBar.add(add_GameAction);
-		 toolBar.add(delete_GameAction);
-		 toolBar.add(edit_GameAction);
-		 toolBar.addSeparator();
-		 toolBar.add(searchAction);
-		 toolBar.add(sortAction);
-		 this.setLayout(new BorderLayout());
-		 toolBar.setPreferredSize(new Dimension(0,73));
-		 this.add(toolBar, BorderLayout.NORTH);
+		this.add(new ClubPenguinToolbar());
 		this.add(body,BorderLayout.CENTER);
 		this.pack();
 		
-<<<<<<< HEAD
 		//On Close Listener
 		this.addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
 					//QuitAction._instance.actionPerformed(null);
 			}
 		});
-=======
->>>>>>> master
 		
 		//Game divider listener
 		//Keeps the game divider from randomly disappearing by reseting it's position when the box
