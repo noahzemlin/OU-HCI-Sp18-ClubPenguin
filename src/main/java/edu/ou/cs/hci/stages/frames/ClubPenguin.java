@@ -6,27 +6,29 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
+
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.JToolBar;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
 import edu.ou.cs.hci.stages.actions.QuitAction;
 import edu.ou.cs.hci.stages.nav.ClubPenguinMenu;
 import edu.ou.cs.hci.stages.nav.ClubPenguinToolbar;
@@ -34,24 +36,25 @@ import edu.ou.cs.hci.stages.panels.CheckBoxPanel;
 import edu.ou.cs.hci.stages.panels.GameCard;
 import edu.ou.cs.hci.stages.panels.GameInfoPanel;
 import edu.ou.cs.hci.stages.util.Game;
-//import jdk.internal.module.Resources;
-import edu.ou.cs.hci.resources.*;
 
 public class ClubPenguin extends JFrame {
 
 	private static final long serialVersionUID = 7914914509681332387L;
-
+	
+	private static final int startingHorizSeperatorPos = 220;
+	
 	private static JSplitPane gameAndInfoPanel;
 	private static GameInfoPanel gamePanel;
 	public static JFrame instance;
+	
 	private static CheckBoxPanel checkPanelGenre;
 	private static CheckBoxPanel checkPanelTag;
 	
-	private static int lastGameDividerLocation;
+	public static ArrayList<GameCard> curCards;
 	
-	public static ArrayList<GameCard> curCards = null;
+	private static int lastGameDividerLocation = startingHorizSeperatorPos;
 	
-	private static JPanel contentPanel;
+	public static JPanel contentPanel;
 
 	public ClubPenguin() {
 		this(50, 50);
@@ -67,14 +70,7 @@ public class ClubPenguin extends JFrame {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		addWindowListener(new WindowAdapter()
-        {
-            @Override
-            public void windowClosing(WindowEvent e)
-            {
-                new QuitAction(null).actionPerformed(null);
-            }
-        });
+		
 	}
 	
 	public void addStandardComponents() {
@@ -84,29 +80,35 @@ public class ClubPenguin extends JFrame {
 		 * 	
 		 * 	Sub sections denote children (e.g. body is the parent of filterPanel and viewerPanel)
 		 * 
-		 * 	-body (Scrollpane between the left and the right)
-		 * 		-filterPanel (The panel on the left containing the filters)
-		 * 			-checkPanelGenre (Genre checkboxes)
-		 * 			-checkPanelTag	(Tag checkboxes)
-		 * 		-viewerPanel (The panel on the right containing the search bar and games view)
-		 * 			-searchSortPanel (The search bar)
-		 * 			-gameAndInfoPanel (Scrollpane between the game grid view and the game info view)
-		 * 				-contentScroll	(Game view)
-		 * 				-gamePanel	(Game info view)
+		 * 	-main
+		 * 		-toolbar
+		 * 		-body (Scrollpane between the left and the right)
+		 * 			-filterPanel (The panel on the left containing the filters)
+		 * 				-checkPanelGenre (Genre checkboxes)
+		 * 				-checkPanelTag	(Tag checkboxes)
+		 * 			-viewerPanel (The panel on the right containing the search bar and games view)
+		 * 				-searchSortPanel (The search bar)
+		 * 				-gameAndInfoPanel (Scrollpane between the game grid view and the game info view)
+		 * 					-contentScroll	(Game view)
+		 * 					-gamePanel	(Game info view)
 		 */
+		
+		JPanel main = new JPanel(new GridBagLayout());
 
 		//Create the header panel which holds the header bar
 		JPanel searchSortPanel = new JPanel(new GridLayout(0, 3));
-		//searchSortPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		searchSortPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		JTextField search = new JTextField();
 		search.setText("Search");
 		searchSortPanel.add(search);
-		searchSortPanel.setBackground(new Color(167, 211, 255));
 		
 		JPanel filterPanel = new JPanel();
 		filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.PAGE_AXIS));
+
 		filterPanel.add(new JLabel("Genres"));
+		
+		filterPanel.setBackground(new Color(167, 211, 255));
 		
 		//Create the panel which will hold the check boxes
 		ArrayList<String> genres = new ArrayList<String>();
@@ -114,9 +116,8 @@ public class ClubPenguin extends JFrame {
 		genres.add("Strategy");
 		genres.add("RPG");
 		checkPanelGenre = new CheckBoxPanel(genres);
-
 		filterPanel.add(checkPanelGenre);
-		
+
 		filterPanel.add(new JLabel("Tags"));
 		
 		ArrayList<String> tags = new ArrayList<String>();
@@ -124,25 +125,20 @@ public class ClubPenguin extends JFrame {
 		tags.add("Multiplayer");
 		tags.add("Ridiculous");
 		checkPanelTag = new CheckBoxPanel(tags);
-
 		filterPanel.add(checkPanelTag);
-		filterPanel.setBackground(hex2Rgb("#A0F2FF"));
-		//filterPanel.setOpaque(true);
 		
 		//Create the panel and scrollpane for the main game content browser
-		contentPanel = new JPanel(new GridLayout(0, 4, 15, 15));
-		contentPanel.setPreferredSize(new Dimension(0, 1000));
+		contentPanel = new JPanel(new GridLayout(0, 4));
 		JScrollPane contentScroll = new JScrollPane(contentPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		contentPanel.setBackground(new Color(167, 211, 255));
-		
+	
 		//Create the panel which will hold the game info
 		gamePanel = new GameInfoPanel();
 		//gamePanel.setVisible(false); //Should gamePanel should at start?
 		
 		//Create the panel which will act as panel for the viewer panel and games info
 		gameAndInfoPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT, contentScroll, gamePanel);
-		gameAndInfoPanel.setDividerLocation(350);
-		lastGameDividerLocation = 350;
+		gameAndInfoPanel.setDividerLocation(startingHorizSeperatorPos);
+		lastGameDividerLocation = 320;
 		
 		//Create the viewer panel which holds the search/sort bar and game browser
 		JPanel viewerPanel = new JPanel(new GridBagLayout());
@@ -152,38 +148,39 @@ public class ClubPenguin extends JFrame {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 1;
-		c.weighty = 0.03;
+		c.weighty = 0.05;
 		viewerPanel.add(searchSortPanel, c);
-		searchSortPanel.setBackground(hex2Rgb("#A0F2FF"));
 		c.gridy = 1;
-		c.weighty = .97;
+		c.weighty = .95;
 		viewerPanel.add(gameAndInfoPanel, c);
 
 		//Create the panel which hold the body
 		JSplitPane body = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, filterPanel, viewerPanel);
 		body.setDividerLocation(150);
-		repaint();
-		
-		contentPanel.setPreferredSize(new Dimension(0,400)); 
-		
-		////////////////////////////////////////////////////////////////
 
-		
-		//COLOR
-		contentPanel.setBackground(hex2Rgb("#A7D3FF"));
-		contentPanel.setOpaque(true);
 		this.setJMenuBar(new ClubPenguinMenu());
+
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 1;
+		c.weighty = 0.05;
+		main.add(new ClubPenguinToolbar(), c);
+		c.gridx = 0;
+		c.gridy = 1;
+		c.weightx = 1;
+		c.weighty = 0.95;
+		main.add(body, c);
 		
-		//
-		
-		this.add(new ClubPenguinToolbar());
-		this.add(body,BorderLayout.CENTER);
+		this.add(main);
 		this.pack();
+		
+		
+		//Begin Listeners
 		
 		//On Close Listener
 		this.addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
-					//QuitAction._instance.actionPerformed(null);
+					QuitAction._instance.actionPerformed(null);
 			}
 		});
 		
@@ -255,26 +252,24 @@ public class ClubPenguin extends JFrame {
 		});
 		
 	}
-
-	//Set the currently viewed game in the game info display
-	public static void setGame(GameCard gameCard) {
-			gamePanel.setGame(gameCard);
-			gameAndInfoPanel.setDividerLocation(lastGameDividerLocation);
-	}
 	
+	//Set the currently viewed game in the game info display
+	public static void setGame(GameCard game) {
+		gamePanel.setGame(game);
+		gameAndInfoPanel.setDividerLocation(lastGameDividerLocation);
+	}
+
 	public static void setGamesList(ArrayList<GameCard> cards) {
+		curCards = cards;
 		contentPanel.removeAll();
 		
-		System.out.println("Adding " + cards.size() + " cards");
-		
-		curCards = (ArrayList<GameCard>) cards.clone();
-		
-		for(GameCard card : cards)
+		for (GameCard card : cards) {
 			contentPanel.add(card);
+		}
 		
 		contentPanel.revalidate();
 		
-		
+		contentPanel.setPreferredSize(new Dimension(0, 300 * cards.size() / 4));
 	}
 	
 	public static Color hex2Rgb(String colorStr) {

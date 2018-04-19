@@ -18,10 +18,9 @@ public class FilterPanel extends JPanel implements ItemListener{
 	private ArrayList<String> filters;
 	private ArrayList<String> isSelected;
 	
-	public FilterPanel(ArrayList<String> filters,String type) {
+	public FilterPanel(ArrayList<String> filters, String type) {
 		
 		this.filters = filters;
-		this.setBackground(hex2Rgb("#A0F2FF"));
 		this.setOpaque(true);
 		isSelected = new ArrayList<String>();
 		//Add example text to checkbox panel
@@ -59,11 +58,5 @@ public class FilterPanel extends JPanel implements ItemListener{
 		return isSelected;
 		
 	}
-	public static Color hex2Rgb(String colorStr) {
-	    return new Color(
-	            Integer.valueOf( colorStr.substring( 1, 3 ), 16 ),
-	            Integer.valueOf( colorStr.substring( 3, 5 ), 16 ),
-	            Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
-	}
-	
+
 }
