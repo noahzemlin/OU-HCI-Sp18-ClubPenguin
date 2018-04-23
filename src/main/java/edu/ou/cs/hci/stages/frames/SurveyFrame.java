@@ -63,7 +63,7 @@ public class SurveyFrame extends JFrame {
 		infoTypes.add("Genre(s)");
 		infoTypes.add("Developer/Publisher(s)");
 		infoTypes.add("Release Date");
-		CheckBoxPanel r3 = new CheckBoxPanel(infoTypes);
+		CheckBoxPanel r3 = new CheckBoxPanel(infoTypes, false);
 		
 		QPanel q3 = new QPanel("What do you care most about when viewing a video game?", r3);
 		mainPanel.add(q3);
@@ -108,7 +108,7 @@ public class SurveyFrame extends JFrame {
 				ArrayList<String> results = new ArrayList<String>();
 				results.add("Question 1: " + r1Input.getText());
 				results.add("Question 2: " + r2.getValue());
-				results.add("Question 3: " + r3.getSelectedAsText());
+				results.add("Question 3: " + r3.toString());
 				results.add("Question 4: " + r4.getSelectedAsText());
 				results.add("Question 5: " + r5.getText());
 				results.add("Time taken: " + (System.currentTimeMillis() - startTime)/1000.0);

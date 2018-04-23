@@ -17,22 +17,18 @@ public class ClubPenguinToolbar extends JToolBar{
 		this.setFloatable(false);
 		JButton button;
 		
-		
 		button = new JButton(new AddGameAction());
-		button.setBackground(new Color(160,242,255));
+		button.setBackground(new Color(160, 242, 255));
 		this.add(button);
 		button = new JButton(new RemoveGameAction());
-		button.setBackground(new Color(160,242,255));
+		button.setBackground(new Color(160, 242, 255));
 		this.add(button);
 		button = new JButton(new EditGameAction());
-		button.setBackground(new Color(160,242,255));
+		button.setBackground(new Color(160, 242, 255));
 		this.add(button);
 		this.addSeparator();
 		button = new JButton(new SortAction());
-		button.setBackground(new Color(160,242,255));
-		this.add(button);
-		button = new JButton(new SearchAction());
-		button.setBackground(new Color(160,242,255));
+		button.setBackground(new Color(160, 242, 255));
 		this.add(button);
 
 		

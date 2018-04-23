@@ -3,6 +3,7 @@ package edu.ou.cs.hci.stages.frames;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -49,6 +50,8 @@ public class ClubPenguin extends JFrame {
 	
 	private static CheckBoxPanel checkPanelGenre;
 	private static CheckBoxPanel checkPanelTag;
+	
+	private static JTextField search;
 	
 	public static ArrayList<GameCard> curCards;
 	
@@ -99,7 +102,7 @@ public class ClubPenguin extends JFrame {
 		JPanel searchSortPanel = new JPanel(new GridLayout(0, 3));
 		searchSortPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		
-		JTextField search = new JTextField();
+		search = new JTextField();
 		search.setText("Search");
 		searchSortPanel.add(search);
 		
@@ -113,9 +116,9 @@ public class ClubPenguin extends JFrame {
 		//Create the panel which will hold the check boxes
 		ArrayList<String> genres = new ArrayList<String>();
 		genres.add("Action");
-		genres.add("Strategy");
-		genres.add("RPG");
-		checkPanelGenre = new CheckBoxPanel(genres);
+		genres.add("MOBA");
+		genres.add("Survival");
+		checkPanelGenre = new CheckBoxPanel(genres, false);
 		filterPanel.add(checkPanelGenre);
 
 		filterPanel.add(new JLabel("Tags"));
@@ -124,11 +127,11 @@ public class ClubPenguin extends JFrame {
 		tags.add("Couch Co-op");
 		tags.add("Multiplayer");
 		tags.add("Ridiculous");
-		checkPanelTag = new CheckBoxPanel(tags);
+		checkPanelTag = new CheckBoxPanel(tags, true);
 		filterPanel.add(checkPanelTag);
 		
 		//Create the panel and scrollpane for the main game content browser
-		contentPanel = new JPanel(new GridLayout(0, 4));
+		contentPanel = new JPanel(new FlowLayout(3));
 		JScrollPane contentScroll = new JScrollPane(contentPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	
 		//Create the panel which will hold the game info
@@ -244,11 +247,26 @@ public class ClubPenguin extends JFrame {
 			public void removeUpdate(DocumentEvent arg0) {
 				changed();
 			}
-			
+
+			//sets the gamecards to show what names contain what is within the search bar
 			public void changed() {
-				System.out.println("New search: " + search.getText());
+	
+				for (int i = 0; i < ClubPenguin.getGames().size(); i++)
+				{
+					if(ClubPenguin.getGames().get(i) != null) {
+						if (!ClubPenguin.getGames().get(i).getGame().getName().toLowerCase().contains(ClubPenguin.getSearch().toLowerCase()))
+						{
+							ClubPenguin.getGames().get(i).setVisible(false);
+						}
+						else if (ClubPenguin.getSearch().equals(""))
+						{
+							ClubPenguin.getGames().get(i).setVisible(true);
+						}
+					}
+				}
+
 			}
-			
+
 		});
 		
 	}
@@ -277,6 +295,21 @@ public class ClubPenguin extends JFrame {
 	            Integer.valueOf( colorStr.substring( 1, 3 ), 16 ),
 	            Integer.valueOf( colorStr.substring( 3, 5 ), 16 ),
 	            Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
+	}
+
+	public static void addToGamesArray(GameCard gameCard) {
+		contentPanel.add(gameCard);
+		curCards.add(gameCard);
+		contentPanel.revalidate();
+	}
+	
+	public static String getSearch()
+	{
+		return search.getText();
+	}
+
+	public static ArrayList<GameCard> getGames() {
+		return curCards;
 	}
 	
 }
