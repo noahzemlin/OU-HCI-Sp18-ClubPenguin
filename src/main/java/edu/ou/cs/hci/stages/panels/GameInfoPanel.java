@@ -5,12 +5,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.text.SimpleDateFormat;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
 import edu.ou.cs.hci.stages.util.Game;
 
@@ -18,14 +18,17 @@ public class GameInfoPanel extends JPanel{
 
 	private static final long serialVersionUID = -4597173753271660181L;
 	
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	public static boolean changedData = false;
 	
 	Game game;
+	GameCard gameCard;
 	
 	JLabel nameLabel;
 	JLabel descLabel;
-	JLabel dateLabel;
-	JTextField tagsBox;
+	JLabel publisherLabel;
+	JLabel developerLabel;
+	JTextField tagsLabel;
+	JLabel genreLabel;
 
 	public GameInfoPanel() {
 		this.setBackground(hex2Rgb("#A0F2FF"));
@@ -46,12 +49,20 @@ public class GameInfoPanel extends JPanel{
 		this.add(descLabel, c);
 		
 		c.gridy = 2;
-		dateLabel = new JLabel("No date.");
-		this.add(dateLabel, c);
+		publisherLabel = new JLabel("No publisher.");
+		this.add(publisherLabel, c);
 		
 		c.gridy = 3;
-		tagsBox = new JTextField();
-		this.add(tagsBox, c);
+		developerLabel = new JLabel("No developer.");
+		this.add(developerLabel, c);
+		
+		c.gridy = 4;
+		tagsLabel = new JTextField("No tags.");
+		this.add(tagsLabel, c);
+		
+		c.gridy = 5;
+		genreLabel = new JLabel("No genres.");
+		this.add(genreLabel, c);
 		
 		c.gridx = 1;
 		c.gridy = 0;
@@ -94,25 +105,44 @@ public class GameInfoPanel extends JPanel{
 				
 			}});
 		
+		tagsLabel.addCaretListener(new CaretListener()  {
+
+			@Override
+			public void caretUpdate(CaretEvent arg0) {
+				if (tagsLabel != null && game != null) {
+					if (tagsLabel.getText() != game.getTags()) {
+						changedData = true;
+						gameCard.getGame().setTags(tagsLabel.getText());
+					}
+				}
+				
+			}}
+		);
 	}
-	
+
 	public Game getCurrentGame() {
 		return game;
 	}
 	
-	public void setGame(Game game) {
+	public void setGame(GameCard gamecardin) {
+
 		
 		this.setVisible(true);
 		
-		this.game = game;
+		game = gamecardin.getGame();
+		gameCard = gamecardin;
 		
 		nameLabel.setText(game.getName());
 		
 		descLabel.setText(game.getDescription());
 		
-		dateLabel.setText(dateFormat.format(game.getReleaseDate().getTime()));
+		publisherLabel.setText(game.getPublishers());
 		
-		tagsBox.setText(game.getTagsAsString());
+		developerLabel.setText(game.getDevelopers());
+		
+		genreLabel.setText(game.getGenres());
+		
+		tagsLabel.setText(game.getTags());
 	}
 	public static Color hex2Rgb(String colorStr) {
 	    return new Color(
