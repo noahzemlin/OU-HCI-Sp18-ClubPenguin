@@ -12,11 +12,19 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,12 +34,18 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+
+import edu.ou.cs.hci.resources.Resources;
 import edu.ou.cs.hci.stages.actions.QuitAction;
 import edu.ou.cs.hci.stages.nav.ClubPenguinMenu;
 import edu.ou.cs.hci.stages.nav.ClubPenguinToolbar;
 import edu.ou.cs.hci.stages.panels.CheckBoxPanel;
 import edu.ou.cs.hci.stages.panels.GameCard;
 import edu.ou.cs.hci.stages.panels.GameInfoPanel;
+import edu.ou.cs.hci.stages.util.Game;
 
 public class ClubPenguin extends JFrame {
 
@@ -265,6 +279,70 @@ public class ClubPenguin extends JFrame {
 			}
 
 		});
+		
+		//DEMO ONLY STUFF
+		
+		ArrayList<GameCard> cards = new ArrayList<GameCard>();
+		
+		URL	url = Resources.getResource("data/games.csv");
+
+		try
+		{
+			// Create a reader for the CSV
+			InputStream		is = url.openStream();
+			InputStreamReader	isr = new InputStreamReader(is);
+			BufferedReader		r = new BufferedReader(isr);
+
+			// Use the Apache Commons CSV library to read records from it
+			CSVFormat			format = CSVFormat.DEFAULT;
+			CSVParser			parser = CSVParser.parse(r, format);
+			java.util.List<CSVRecord>	records = parser.getRecords();
+
+			// Allocate a 2-D array to keep the rows and columns in memory
+			String[][]	values = new String[records.size()][8];
+
+			for (CSVRecord record : records)	// Loop over the rows...
+			{
+				Iterator<String>	k = record.iterator();
+				int				i = (int)record.getRecordNumber() - 1;
+				int				j = 0;		// Column number
+				
+				while (k.hasNext())			// Loop over the columns...
+				{
+					values[i][j] = k.next();	// Grab each cell's value
+
+					j++;
+				}
+				
+				if (i != 0) {
+				
+				Game game = new Game();
+				
+				game.setName(values[i][0]);
+				game.setDescription(values[i][1]);
+				game.setDevelopers(values[i][2]);
+				game.setPublishers(values[i][3]);
+				game.setGenres(values[i][4]);
+				game.setTags(values[i][5]);
+				game.setPicture(values[i][6]);
+				game.setLocation(values[i][7]);
+				
+				cards.add(new GameCard(game));
+				
+				}
+				
+			}
+
+			is.close();
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		
+		ClubPenguin.setGamesList(cards);
+		
+		//DEMO ONLY STUFF
 		
 	}
 	
