@@ -1,6 +1,8 @@
 package edu.ou.cs.hci.stages.panels;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
@@ -8,7 +10,10 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
@@ -23,15 +28,16 @@ public class GameInfoPanel extends JPanel{
 	Game game;
 	GameCard gameCard;
 	
-	JLabel nameLabel;
-	JLabel descLabel;
-	JLabel publisherLabel;
-	JLabel developerLabel;
-	JTextField tagsLabel;
-	JLabel genreLabel;
+	NameValuePair nameLabel;
+	NameValuePair descLabel;
+	NameValuePair publisherLabel;
+	NameValuePair developerLabel;
+	
+	NameValuePairEditable tagsLabel;
+	NameValuePairEditable genreLabel;
 
 	public GameInfoPanel() {
-		this.setBackground(hex2Rgb("#A0F2FF"));
+
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -41,27 +47,28 @@ public class GameInfoPanel extends JPanel{
 		c.weighty = .25;
 		
 		c.gridy = 0;
-		nameLabel = new JLabel("No name.");
+		nameLabel = new NameValuePair("Name", "No name.");
 		this.add(nameLabel, c);
 		
 		c.gridy = 1;
-		descLabel = new JLabel("No description.");
+		descLabel = new NameValuePair("Description", "No description.");
+		descLabel.pair.setPreferredSize(new Dimension(0, 100));
 		this.add(descLabel, c);
 		
 		c.gridy = 2;
-		publisherLabel = new JLabel("No publisher.");
+		publisherLabel = new NameValuePair("Publisher", "No publisher.");
 		this.add(publisherLabel, c);
 		
 		c.gridy = 3;
-		developerLabel = new JLabel("No developer.");
+		developerLabel = new NameValuePair("Developer", "No developer.");
 		this.add(developerLabel, c);
 		
 		c.gridy = 4;
-		tagsLabel = new JTextField("No tags.");
+		tagsLabel = new NameValuePairEditable("Tags", "No tags.");
 		this.add(tagsLabel, c);
 		
 		c.gridy = 5;
-		genreLabel = new JLabel("No genres.");
+		genreLabel = new NameValuePairEditable("Genres", "No genres.");
 		this.add(genreLabel, c);
 		
 		c.gridx = 1;
@@ -105,14 +112,28 @@ public class GameInfoPanel extends JPanel{
 				
 			}});
 		
-		tagsLabel.addCaretListener(new CaretListener()  {
+		tagsLabel.pair.addCaretListener(new CaretListener()  {
 
 			@Override
 			public void caretUpdate(CaretEvent arg0) {
 				if (tagsLabel != null && game != null) {
-					if (tagsLabel.getText() != game.getTags()) {
+					if (tagsLabel.pair.getText() != game.getTags()) {
 						changedData = true;
-						gameCard.getGame().setTags(tagsLabel.getText());
+						gameCard.getGame().setTags(tagsLabel.pair.getText());
+					}
+				}
+				
+			}}
+		);
+		
+		genreLabel.pair.addCaretListener(new CaretListener()  {
+
+			@Override
+			public void caretUpdate(CaretEvent arg0) {
+				if (genreLabel != null && game != null) {
+					if (genreLabel.pair.getText() != game.getGenres()) {
+						changedData = true;
+						gameCard.getGame().setGenres(genreLabel.pair.getText());
 					}
 				}
 				
@@ -132,23 +153,62 @@ public class GameInfoPanel extends JPanel{
 		game = gamecardin.getGame();
 		gameCard = gamecardin;
 		
-		nameLabel.setText(game.getName());
+		nameLabel.pair.setText(game.getName());
 		
-		descLabel.setText(game.getDescription());
+		descLabel.pair.setText(game.getDescription());
 		
-		publisherLabel.setText(game.getPublishers());
+		publisherLabel.pair.setText(game.getPublishers());
 		
-		developerLabel.setText(game.getDevelopers());
+		developerLabel.pair.setText(game.getDevelopers());
 		
-		genreLabel.setText(game.getGenres());
+		genreLabel.pair.setText(game.getGenres());
 		
-		tagsLabel.setText(game.getTags());
-	}
-	public static Color hex2Rgb(String colorStr) {
-	    return new Color(
-	            Integer.valueOf( colorStr.substring( 1, 3 ), 16 ),
-	            Integer.valueOf( colorStr.substring( 3, 5 ), 16 ),
-	            Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
+		tagsLabel.pair.setText(game.getTags());
 	}
 	
+}
+
+class NameValuePair extends JPanel{
+	public JLabel name;
+	public JTextArea pair;
+	
+	public NameValuePair(String name, String defaultVal) {
+		
+		this.setBackground(null);
+		
+		this.name = new JLabel(name + ": ");
+		this.pair = new JTextArea(defaultVal);
+		this.pair.setLineWrap(true);
+		this.pair.setWrapStyleWord(true);
+		this.pair.setEditable(false);
+		this.pair.setFocusable(false);
+		this.pair.setMaximumSize(new Dimension(0, 50));
+		this.pair.setBackground(UIManager.getColor("Label.background"));
+		this.pair.setBorder(UIManager.getBorder("Label.border"));
+		
+		JScrollPane scroll = new JScrollPane (this.pair);
+		
+		this.setLayout(new BorderLayout());
+		
+		this.add(this.name, BorderLayout.WEST);
+		this.add(scroll, BorderLayout.CENTER);
+	}
+}
+
+class NameValuePairEditable extends JPanel{
+	public JLabel name;
+	public JTextField pair;
+	
+	public NameValuePairEditable(String name, String defaultVal) {
+		
+		this.setBackground(null);
+		
+		this.name = new JLabel(name + ": ");
+		this.pair = new JTextField(defaultVal);
+		
+		this.setLayout(new BorderLayout());
+		
+		this.add(this.name, BorderLayout.WEST);
+		this.add(this.pair, BorderLayout.CENTER);
+	}
 }

@@ -4,11 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -57,7 +59,6 @@ public class AddGameAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
 		
 		Game game = new Game();
 		JFrame frame = new JFrame(); 
@@ -116,15 +117,16 @@ public class AddGameAction extends AbstractAction {
 		QPanel q7 = new QPanel("Game Publisher", r7);
 		mainPanel.add(q7);
 		
-		
+		//add game image
+		JButton button = new JButton("Add");
+		mainPanel.add(button);
 
 		frame.add(mainPanel);
 		frame.setVisible(true);
 
-
-		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+		button.addActionListener(new ActionListener() {
 			@Override
-			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+			public void actionPerformed(ActionEvent event) {
 				game.setName(r1Input.getText());
 				game.setDescription(r2Input.getText());
 				game.setPicture(r3Input.getText());

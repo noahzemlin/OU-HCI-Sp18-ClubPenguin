@@ -8,6 +8,8 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 
 import edu.ou.cs.hci.resources.Resources;
+import edu.ou.cs.hci.stages.frames.ClubPenguin;
+import edu.ou.cs.hci.stages.panels.GameCard;
 
 public class RemoveGameAction extends AbstractAction {
 
@@ -20,7 +22,7 @@ public class RemoveGameAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("Remove Game: Removing a Game");
+		ClubPenguin.removeSelectedCard();
 	}
 
 }

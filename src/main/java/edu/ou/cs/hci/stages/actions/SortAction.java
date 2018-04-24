@@ -8,6 +8,7 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 
 import edu.ou.cs.hci.resources.Resources;
+import edu.ou.cs.hci.stages.frames.ClubPenguin;
 
 public class SortAction extends AbstractAction {
 
@@ -21,7 +22,7 @@ public class SortAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("Sort: Sort the games in the grid/list");
+		ClubPenguin.sortGames();
 	}
 
 }

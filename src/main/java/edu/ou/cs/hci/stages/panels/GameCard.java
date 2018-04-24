@@ -24,27 +24,24 @@ public class GameCard extends JPanel {
 	
 	private static final ArrayList<GameCard> cards = new ArrayList<GameCard>();
 	
-	private static GameCard selected = null;
+	public static GameCard selected = null;
 	GameCard thisCard;
 	Game game;
-	GameCard _instance;
 	
 	public GameCard() {
-		
 		this(new Game());
-		cards.add(this);
-		thisCard = this;
 	}
 
 	public GameCard(Game game) {
-		_instance = this;
-		this.setBackground(hex2Rgb("#FFFFFF"));
+		thisCard = this;
+		cards.add(this);
+		this.setBackground(Color.WHITE);
 		this.game = game;
 		this.addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ClubPenguin.setGame(_instance);
+				ClubPenguin.setGame(thisCard);
 				selected = thisCard;
 				
 				for(GameCard card : cards) {
@@ -54,13 +51,12 @@ public class GameCard extends JPanel {
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				setBorder(BorderFactory.createLineBorder(hex2Rgb("#ffd3a7"),5));
+				
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(2, 2, 2, 2),
-						BorderFactory.createLineBorder(Color.black)));
+				
 			}
 
 			@Override
@@ -76,8 +72,7 @@ public class GameCard extends JPanel {
 		
 		//Set Layout stuff
 		this.setLayout(new BorderLayout());
-		this.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(2, 2, 2, 2),
-				BorderFactory.createLineBorder(Color.black)));
+		this.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
 		JLabel picture = new JLabel();
 		if (game.getPicture() != null && game.getPicture().length() > 0) {
@@ -88,23 +83,12 @@ public class GameCard extends JPanel {
 		this.add(picture, BorderLayout.NORTH);
 		this.add(new JLabel(game.getName()), BorderLayout.SOUTH);
 	}
-	public void RemoveBorder()
-	{
-		setBorder(BorderFactory.createLineBorder(hex2Rgb("#ffd3a7"),-1));
-	}
-
-	public static Color hex2Rgb(String colorStr) {
-	    return new Color(
-	            Integer.valueOf( colorStr.substring( 1, 3 ), 16 ),
-	            Integer.valueOf( colorStr.substring( 3, 5 ), 16 ),
-	            Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
-	}
 
 	public void selectionChange() {
 		if (selected == this) {
-			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(167, 211, 255), 10), BorderFactory.createLineBorder(new Color(255, 211, 167), 3)));
+			this.setBorder(BorderFactory.createLineBorder(new Color(255, 211, 167), 5));		
 		} else {
-			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(167, 211, 255), 10), BorderFactory.createLineBorder(new Color(200, 200, 200))));
+			this.setBorder(new EmptyBorder(5, 5, 5, 5));
 		}
 	}
 	

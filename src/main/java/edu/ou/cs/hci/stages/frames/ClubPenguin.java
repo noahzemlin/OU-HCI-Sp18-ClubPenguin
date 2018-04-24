@@ -13,6 +13,7 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -36,7 +37,7 @@ public class ClubPenguin extends JFrame {
 
 	private static final long serialVersionUID = 7914914509681332387L;
 	
-	private static final int startingHorizSeperatorPos = 220;
+	private static final int startingHorizSeperatorPos = 250;
 	
 	private static JSplitPane gameAndInfoPanel;
 	private static GameInfoPanel gamePanel;
@@ -47,7 +48,7 @@ public class ClubPenguin extends JFrame {
 	
 	private static JTextField search;
 	
-	public static ArrayList<GameCard> curCards;
+	public static ArrayList<GameCard> curCards = new ArrayList<GameCard>();
 	
 	private static int lastGameDividerLocation = startingHorizSeperatorPos;
 	
@@ -63,7 +64,7 @@ public class ClubPenguin extends JFrame {
 		addStandardComponents();
 		
 		this.setTitle("Club Penguin");
-		this.setBounds(x, y, 800, 800);
+		this.setBounds(x, y, 800, 700);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -105,7 +106,7 @@ public class ClubPenguin extends JFrame {
 
 		filterPanel.add(new JLabel("Genres"));
 		
-		filterPanel.setBackground(new Color(167, 211, 255));
+		filterPanel.setBackground(new Color(199, 236, 238));
 		
 		//Create the panel which will hold the check boxes
 		ArrayList<String> genres = new ArrayList<String>();
@@ -127,9 +128,11 @@ public class ClubPenguin extends JFrame {
 		//Create the panel and scrollpane for the main game content browser
 		contentPanel = new JPanel(new FlowLayout(3));
 		JScrollPane contentScroll = new JScrollPane(contentPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-	
+		contentPanel.setBackground(new Color(167, 211, 255));
+		
 		//Create the panel which will hold the game info
 		gamePanel = new GameInfoPanel();
+		gamePanel.setBackground(new Color(199, 236, 238));
 		//gamePanel.setVisible(false); //Should gamePanel should at start?
 		
 		//Create the panel which will act as panel for the viewer panel and games info
@@ -268,7 +271,8 @@ public class ClubPenguin extends JFrame {
 	//Set the currently viewed game in the game info display
 	public static void setGame(GameCard game) {
 		gamePanel.setGame(game);
-		gameAndInfoPanel.setDividerLocation(lastGameDividerLocation);
+		gamePanel.setVisible(true);
+		gameAndInfoPanel.setDividerLocation(startingHorizSeperatorPos);
 	}
 
 	public static void setGamesList(ArrayList<GameCard> cards) {
@@ -295,6 +299,8 @@ public class ClubPenguin extends JFrame {
 		contentPanel.add(gameCard);
 		curCards.add(gameCard);
 		contentPanel.revalidate();
+		
+		contentPanel.setPreferredSize(new Dimension(0, 210 * curCards.size() / 4));
 	}
 	
 	public static String getSearch()
@@ -304,6 +310,28 @@ public class ClubPenguin extends JFrame {
 
 	public static ArrayList<GameCard> getGames() {
 		return curCards;
+	}
+
+	public static void removeSelectedCard() {
+		for (GameCard card : curCards) {
+			if (card == GameCard.selected) {
+				curCards.remove(card);
+				contentPanel.remove(card);
+				contentPanel.revalidate();
+				break;
+			}
+		}
+	}
+
+	public static void sortGames() {
+		curCards.sort(new Comparator<GameCard>() {
+
+			@Override
+			public int compare(GameCard arg0, GameCard arg1) {
+				return arg0.getGame().getName().compareTo(arg1.getGame().getName());
+			}});
+		
+		setGamesList(curCards);
 	}
 	
 }
