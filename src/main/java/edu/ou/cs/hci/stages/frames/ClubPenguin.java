@@ -1,6 +1,5 @@
 package edu.ou.cs.hci.stages.frames;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -13,14 +12,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -36,7 +31,6 @@ import edu.ou.cs.hci.stages.nav.ClubPenguinToolbar;
 import edu.ou.cs.hci.stages.panels.CheckBoxPanel;
 import edu.ou.cs.hci.stages.panels.GameCard;
 import edu.ou.cs.hci.stages.panels.GameInfoPanel;
-import edu.ou.cs.hci.stages.util.Game;
 
 public class ClubPenguin extends JFrame {
 
@@ -69,7 +63,7 @@ public class ClubPenguin extends JFrame {
 		addStandardComponents();
 		
 		this.setTitle("Club Penguin");
-		this.setBounds(x, y, 800, 600);
+		this.setBounds(x, y, 800, 800);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 

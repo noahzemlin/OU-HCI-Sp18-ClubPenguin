@@ -1,6 +1,5 @@
 package edu.ou.cs.hci.stages.panels;
 
-import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;

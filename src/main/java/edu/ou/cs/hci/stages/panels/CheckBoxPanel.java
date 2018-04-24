@@ -1,6 +1,5 @@
 package edu.ou.cs.hci.stages.panels;
 
-import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -8,8 +7,6 @@ import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
 import edu.ou.cs.hci.stages.frames.ClubPenguin;
 
 public class CheckBoxPanel extends JPanel implements ItemListener{
